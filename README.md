@@ -10,6 +10,7 @@
 * 在VScode安裝Espressif IDF，方便建立esp32的開發環境：
 https://blog.csdn.net/weixin_45652444/article/details/118728136
 * 使用NodeMCU-32S Lua WiFi 物聯網開發板 ESP32 最新版 ESP32-S的晶片
+* F1(Views-problems) -> build -> port(/dev/ttyUSB0) -> device target選esp32 -> fash(URAT)-> F1的flash(dfu) your project -> monitor看
 ## 設計動機
 因為上了羅習五教授的系統軟體設計，所以對IO Interrupt的處理步驟已經熟悉，想說可以藉著期末報告自己去實現在esp32的嵌入式系統下完成dual core的IO Interrupt，本專案利用Espressif IDF和FreeRTOS函數庫來實做完成。
 ## esp32中斷步驟
