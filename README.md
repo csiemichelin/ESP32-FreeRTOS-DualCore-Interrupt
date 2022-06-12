@@ -32,7 +32,7 @@ https://blog.csdn.net/weixin_45652444/article/details/118728136
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 ```
-2. 定義GPIO的pin腳和config還有初始化dual core上的task handler
+2. 定義GPIO的pin腳和config還有初始化dual core上的task handler：
 ```c=
 #define ESP_INTR_FLAG_DEFAULT 0
 #define CONFIG_LED_PIN 27
@@ -41,7 +41,7 @@ https://blog.csdn.net/weixin_45652444/article/details/118728136
 TaskHandle_t myButtonTaskHandle = NULL; //core1 上的task hanlder
 TaskHandle_t myPrintTaskHandle = NULL; //core0 上的task hanlder
 ```
-3. 創建一個靜態的IRAM_R函數作為中斷服務處理程式。即按下button，則會去call interrupt service routine或稱作interrupt handler（對應gpio interrupt)
+3. 創建一個靜態的IRAM_R函數作為中斷服務處理程式。即按下button，則會去call interrupt service routine或稱作interrupt handler（對應gpio interrupt)：
 ``` c=
 void IRAM_ATTR button_isr_handler(void* arg) {
     BaseType_t checkIfYieldRequired; //若架構為 32位元則定義為32位元
@@ -50,7 +50,7 @@ void IRAM_ATTR button_isr_handler(void* arg) {
     //普通task使用taskYIELD()強制任務切換；中斷服務程序使用portYIELD_FROM_ISR()強制task切換
 }
 ```
-4. core1 上按下button產生interrupt
+4. core1 上按下button產生interrupt：
 ``` c=
 void button_task(void* arg) {
 	bool flag = false;
@@ -67,7 +67,7 @@ void button_task(void* arg) {
         }
 }
 ```
-5. core0 上負責執行count＋＋
+5. core0 上負責執行count＋＋：
 ```c=
 void myprint_task(void *arg) {
     int count = 0;
@@ -77,7 +77,7 @@ void myprint_task(void *arg) {
     }
 }
 ```
-6. 接著定義主程式中的app_main()函數，設置 button and led pins as GPIO pins和將button gpio設為input&&led gpio設為output，再將按鈕設置為啟用中斷
+6. 接著定義主程式中的app_main()函數，設置 button and led pins as GPIO pins和將button gpio設為input&&led gpio設為output，再將按鈕設置為啟用中斷：
 ```c=
 void app_main()
 {
@@ -91,7 +91,7 @@ void app_main()
 	
         printf("( If LED is blinking means have GPIO interrupt )\r\nPlease click the button to start project!\r\n");
 ```
-7. 利用xTaskCreatePinnedToCore去實現multicore來create task，當使用vTaskStartScheduler() 來啟動排程器決定讓哪個 task 開始執行。當 vTaskStartScheduler() 被呼叫時，會先建立一個 idle task，這個 task 是為了確保 CPU 在任一時間至少有一個 task 可以執行而在 vTaskStartScheduler() 被呼叫時自動建立的 user task，idle task 的 priority 為 0 (lowest)，目的是為了確保當有其他 user task 進入 ready list 時可以馬上被執行。
+7. 利用xTaskCreatePinnedToCore去實現multicore來create task，當使用vTaskStartScheduler() 來啟動排程器決定讓哪個 task 開始執行。當 vTaskStartScheduler() 被呼叫時，會先建立一個 idle task，這個 task 是為了確保 CPU 在任一時間至少有一個 task 可以執行而在 vTaskStartScheduler() 被呼叫時自動建立的 user task，idle task 的 priority 為 0 (lowest)，目的是為了確保當有其他 user task 進入 ready list 時可以馬上被執行：
 ```c=
 // 建立myprint_task並指定在核心0中執行
         xTaskCreatePinnedToCore(
@@ -107,7 +107,7 @@ void app_main()
     
         vTaskStartScheduler();//vTaskStartScheduler() 來啟動排程器決定讓哪個 task 開始執行
 ```
-8. 允許每個GPIO註冊中斷處理程序
+8. 允許每個GPIO註冊中斷處理程序：
 ```c=
         gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
 
