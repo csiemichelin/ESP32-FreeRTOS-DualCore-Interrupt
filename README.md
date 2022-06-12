@@ -114,6 +114,6 @@ void app_main()
         gpio_isr_handler_add(CONFIG_BUTTON_PIN, button_isr_handler, NULL);
 }
 ```
-### Demo
+## Demo
 當按下button時會中斷計數，且可利用monitor或是led去監控有無發生中斷。
 https://drive.google.com/file/d/1B2ghnNj0zjGL7SEb3q3oNo8bDdvevUeT/view?usp=sharing
