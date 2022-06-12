@@ -52,15 +52,15 @@ void app_main()
 	gpio_pad_select_gpio(CONFIG_LED_PIN);
 	
 	gpio_set_direction(CONFIG_BUTTON_PIN, GPIO_MODE_INPUT);//將button gpio設為input
-    gpio_set_direction(CONFIG_LED_PIN, GPIO_MODE_OUTPUT);//將led gpio設為output
+    	gpio_set_direction(CONFIG_LED_PIN, GPIO_MODE_OUTPUT);//將led gpio設為output
 	
 	// 在按鈕從 (1->0) 則啟用中斷
 	gpio_set_intr_type(CONFIG_BUTTON_PIN, GPIO_INTR_NEGEDGE);
 	
-    printf("( If LED is blinking means have GPIO interrupt )\r\nPlease click the button to start project!\r\n");
+   	 printf("( If LED is blinking means have GPIO interrupt )\r\nPlease click the button to start project!\r\n");
 
 	// 建立myprint_task並指定在核心0中執行
-    xTaskCreatePinnedToCore(
+   	 xTaskCreatePinnedToCore(
             myprint_task, //本任務實際對應的Function
             "print_task", //任務名稱（自行設定）
             2048, //所需堆疊空間（常用10000）
@@ -71,7 +71,7 @@ void app_main()
             );
 	xTaskCreatePinnedToCore(button_task, "button_task", 2048, NULL, 10, &myButtonTaskHandle, 1);
     
-    vTaskStartScheduler();//vTaskStartScheduler() 來啟動排程器決定讓哪個 task 開始執行
+    	vTaskStartScheduler();//vTaskStartScheduler() 來啟動排程器決定讓哪個 task 開始執行
 
 	// 允許每個GPIO註冊中斷處理程序
 	gpio_install_isr_service(ESP_INTR_FLAG_DEFAULT);
