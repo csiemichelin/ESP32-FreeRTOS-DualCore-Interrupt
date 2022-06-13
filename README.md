@@ -47,7 +47,7 @@ void IRAM_ATTR button_isr_handler(void* arg) {
     BaseType_t checkIfYieldRequired; //若架構為 32位元則定義為32位元
     checkIfYieldRequired = xTaskResumeFromISR(myButtonTaskHandle);//中斷處理函數中恢復myButtonTaskHandle task
     portYIELD_FROM_ISR(checkIfYieldRequired);
-    //普通task使用taskYIELD()強制任務切換；使用portYIELD_FROM_ISR()強制task切換
+    //普通task使用taskYIELD()強制任務切換；中斷服務程式使用portYIELD_FROM_ISR()強制task切換
 }
 ```
 4. core1 上按下button產生interrupt：
