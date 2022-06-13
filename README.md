@@ -18,7 +18,7 @@ https://blog.csdn.net/weixin_45652444/article/details/118728136
 2. 創建一個靜態的IRAM_ATTR 中斷服務函數。
 > 原因是GPIO的中斷在IRAM中工作。這樣的好處是在flash禁用的情況下也可以響應中斷。且速度更快，對於這種頻繁觸發的中斷是有利的。但是這個中斷也因此無法使用printf印出工作，需要轉入其他Task中執行。
 3. 為某個GPIO口設置中斷服務程式 Handler（interrupt service routine Handler）。
-4. 在設置的中断服务程序 Handler函數中，ISR 程序要保持簡短，不能執行耗時的工作。
+4. 在設置的中斷服務程式 Handler函數中，ISR 程要保持簡短，不能執行耗時的工作。
 ## 專案介紹
 本專案在core 0去做count的計數，並可以透過monitor去觀察，而core 1則是負責將button作為GPIO Interrupt藉由按按鈕的方式完成中斷，而ISR處理函數完成會讓core 0繼續執行。
 
